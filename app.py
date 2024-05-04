@@ -10,14 +10,16 @@ class Request(db.Model):
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=False)
 
-app.app_context().push()  # 创建应用程序上下文
 
-db.create_all()
+with app.app_context():
+    db.create_all()
 
-
-@app.route('/')
+@app.route('/', methods=['GET'])
 def dashboard():
-    requests = Request.query.all()
+    query = request.args.get('query')
+    requests = Request.query.filter(
+        Request.title.ilike(f'%{query}%') | Request.description.ilike(f'%{query}%')
+    ).all() if query else Request.query.all()
     return render_template('dashboard.html', requests=requests)
 
 @app.route('/create_request', methods=['GET', 'POST'])
@@ -26,9 +28,13 @@ def create_request():
         title = request.form['title']
         description = request.form['description']
         new_request = Request(title=title, description=description)
-        db.session.add(new_request)
-        db.session.commit()
-        return redirect(url_for('dashboard'))
+        try:
+            db.session.add(new_request)
+            db.session.commit()
+            return redirect(url_for('dashboard'))
+        except Exception as e:
+            db.session.rollback()
+            return f"Error adding request: {e}", 500  
     return render_template('create_request.html')
 
 if __name__ == '__main__':
