@@ -10,6 +10,11 @@ class Request(db.Model):
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=False)
 
+app.app_context().push()  # 创建应用程序上下文
+
+db.create_all()
+
+
 @app.route('/')
 def dashboard():
     requests = Request.query.all()
