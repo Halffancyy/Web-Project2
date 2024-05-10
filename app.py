@@ -1,12 +1,24 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_wtf import CSRFProtect
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from config import Config
 from models import db, User, Request
+from forms import RegisterForm, LoginForm
 
 app = Flask(__name__)
 app.config.from_object(Config)
 db.init_app(app)
+csrf = CSRFProtect(app)
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 with app.app_context():
     db.create_all()
@@ -14,39 +26,37 @@ with app.app_context():
 # Process user registration
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    if request.method == 'POST':
-        username = request.form['username']
-        email = request.form['email']
-        password = request.form['password']
-        user = User(username=username, email=email)
-        user.set_password(password)
+    form = RegisterForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data, email=form.email.data)
+        user.set_password(form.password.data)
         try:
             db.session.add(user)
             db.session.commit()
-            return redirect(url_for('dashboard'))
+            flash('New user has been created!')
+            return redirect(url_for('login'))
         except Exception as e:
             db.session.rollback()
-            return f"Error creating user: {e}", 500
-    return render_template('register.html')
+            flash('Error: ' + str(e), 'error')
+    return render_template('register.html', form=form)
 
 # Process user login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        user = User.query.filter_by(username=username).first()
-        if user and user.check_password(password):
-            # 这里应实现登录逻辑，例如设置 session
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user and user.check_password(form.password.data):
+            login_user(user)
             return redirect(url_for('dashboard'))
         else:
-            return 'Invalid username or password'
-    return render_template('login.html')
+            flash('Invalid username or password')        
+    return render_template('login.html', form=form)
 
 # User logout and redirection
 @app.route('/logout')
 def logout():
-    # 这里应清除 session
+    logout_user()
     return redirect(url_for('login'))
 
 
