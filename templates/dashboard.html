@@ -1,25 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Request Forum Dashboard</title>
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    />
-  </head>
-  <body>
-    <div class="container mt-5">
-      <h1>Welcome to the Request Forum</h1>
-      <p>This forum allows users to create and answer requests.</p>
-      <p>
-        Get started by
-        <a href="{{ url_for('create_request') }}">creating a request</a>
-      </p>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Request Forum Dashboard</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <script>
+    window.onload = function() {
+      document.getElementById("searchBox").focus(); // Automatically focus on the search box when the page loads
+    };
+  </script>
+</head>
+<body>
+  <div class="container mt-5">
+    <h1>Welcome to the Request Forum</h1>
+    <p>This forum allows users to create and answer requests.</p>
+    <p>
+      Get started by
+      <a href="{{ url_for('create_request') }}">creating a request</a>
+    </p>
 
-      <h2>Recent Requests</h2>
+    <!-- Search Form Start -->
+    <div class="mb-3">
+      <form action="{{ url_for('dashboard') }}" method="get"> <!-- Corrected Form Action -->
+        <div class="input-group">
+          <input type="text" class="form-control" id="searchBox" name="query" placeholder="Search requests..." aria-label="Search requests">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="submit">Search</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!-- Search Form End -->
+
+    <!-- Back Button Start -->
+    <div class="mb-3">
+      <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Clear Search / Return</a>
+    </div>
+    <!-- Back Button End -->
+
+    <h2>Recent Requests</h2>
+    {% if requests %}
       {% for request in requests %}
       <div class="card mt-3">
         <div class="card-body">
@@ -28,6 +50,9 @@
         </div>
       </div>
       {% endfor %}
-    </div>
-  </body>
+    {% else %}
+      <p>No requests found.</p>
+    {% endif %}
+  </div>
+</body>
 </html>
