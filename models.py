@@ -4,6 +4,7 @@ db = SQLAlchemy()
 
 # Create a User model to store user information
 class User(db.Model):
+    __bind_key__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -16,6 +17,7 @@ class User(db.Model):
         return check_password_hash(self.password_hash, password)
 
 class Request(db.Model):
+    __bind_key__ = 'requests'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=False)
