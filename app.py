@@ -5,7 +5,7 @@ from flask_wtf import CSRFProtect
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from config import Config
 from models import db, User, Request
-from forms import RegisterForm, LoginForm
+from forms import RegisterForm, LoginForm, RequestForm
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -22,6 +22,7 @@ def load_user(user_id):
 
 with app.app_context():
     db.create_all()
+
 
 # Process user registration
 @app.route('/register', methods=['GET', 'POST'])
@@ -57,6 +58,7 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
+    flash('You have been logged out.')
     return redirect(url_for('login'))
 
 
@@ -70,9 +72,10 @@ def dashboard():
 
 @app.route('/create_request', methods=['GET', 'POST'])
 def create_request():
-    if request.method == 'POST':
-        title = request.form['title']
-        description = request.form['description']
+    form = RequestForm()
+    if form.validate_on_submit():
+        title = form.title.data
+        description = form.description.data
         new_request = Request(title=title, description=description)
         try:
             db.session.add(new_request)
@@ -81,8 +84,15 @@ def create_request():
         except Exception as e:
             db.session.rollback()
             return f"Error adding request: {e}", 500  
-    return render_template('create_request.html')
+    return render_template('create_request.html', form=form)
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    return render_template('500.html'), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
