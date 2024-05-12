@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
 
@@ -15,6 +16,19 @@ class User(db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+    # Flask-Login integration
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True  
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return str(self.id)
 
 class Request(db.Model):
     __bind_key__ = 'requests'
