@@ -18,11 +18,10 @@ login_manager.login_view = 'login'
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    return db.session.get(User, int(user_id))
 
 with app.app_context():
     db.create_all()
-
 
 # Process user registration
 @app.route('/register', methods=['GET', 'POST'])
@@ -39,6 +38,9 @@ def register():
         except Exception as e:
             db.session.rollback()
             flash('Error: ' + str(e), 'error')
+            print('Error: ' + str(e))
+    else:
+        print(form.errors)
     return render_template('register.html', form=form)
 
 # Process user login
