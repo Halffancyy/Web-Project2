@@ -3,5 +3,5 @@ Flask-SQLAlchemy
 Werkzeug
 Flask-WTF
 Flask-Login
-Flask-Migrate  # 常用于处理数据库迁移
-email-validator  # Flask-WTF 需要这个库来验证电子邮件
+Flask-Migrate  
+email-validator  # Flask-WTF 
