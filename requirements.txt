@@ -5,3 +5,5 @@ Flask-WTF
 Flask-Login
 Flask-Migrate  
 email-validator  # Flask-WTF 
+Flask-bootstrap
+wtforms
