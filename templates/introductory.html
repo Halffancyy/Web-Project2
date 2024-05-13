@@ -1,0 +1,21 @@
+<!-- templates/introductory.html -->
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <title>论坛首页</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>欢迎来到论坛！</h1>
+        <p>这是一个帮助彼此解决问题的社区。</p>
+        <div>
+            <a href="/login">登录</a> | <a href="/register">注册</a>
+        </div>
+    </div>
+</body>
+
+</html>
