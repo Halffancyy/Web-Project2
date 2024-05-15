@@ -12,7 +12,7 @@
 
     <!-- Search Form Start -->
     <div class="mb-3">
-      <form action="{{ url_for('dashboard') }}" method="get"> <!-- Corrected Form Action -->
+      <form action="{{ url_for('dashboard') }}" method="get">
         <div class="input-group">
           <input type="text" class="form-control" id="searchBox" name="query" placeholder="Search requests..." aria-label="Search requests">
           <div class="input-group-append">
@@ -36,10 +36,15 @@
         <div class="card-body">
           <h5 class="card-title">{{ request.title }}</h5>
           <p class="card-text">{{ request.description }}</p>
+          <!-- Like Button Start -->
+          <button type="button" class="btn btn-primary like-btn" data-request-id="{{ request.id }}">
+              Like <span class="badge badge-light">{{ request.like_count() }}</span>
+          </button>
+          <!-- Like Button End -->
         </div>
       </div>
       {% endfor %}
     {% else %}
       <p>No requests found.</p>
     {% endif %}
-    {% endblock %}
+{% endblock %}
