@@ -4,8 +4,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_wtf import CSRFProtect
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from config import Config
-from models import db, User, Request, Like, Comment
-from forms import RegisterForm, LoginForm, RequestForm, CommentForm
+from models import db, User, Request, Like, Comment, CommentLike
+from forms import RegisterForm, LoginForm, RequestForm, CommentForm, EditCommentForm
 
 app = Flask(__name__, instance_relative_config=True)
 app.config.from_object(Config)
@@ -59,7 +59,7 @@ def logout():
     flash('You have been logged out.')
     return redirect(url_for('login'))
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
 @login_required
 def dashboard():
     query = request.args.get('query')
@@ -67,7 +67,8 @@ def dashboard():
         Request.title.ilike(f'%{query}%') | Request.description.ilike(f'%{query}%')
     ).all() if query else Request.query.all()
     comment_form = CommentForm()
-    return render_template('dashboard.html', requests=requests, comment_form=comment_form)
+    edit_comment_form = EditCommentForm()
+    return render_template('dashboard.html', requests=requests, comment_form=comment_form, edit_comment_form=edit_comment_form)
 
 @app.route('/create_request', methods=['GET', 'POST'])
 @login_required
@@ -91,13 +92,16 @@ def create_request():
 @login_required
 def like_request(request_id):
     request = Request.query.get_or_404(request_id)
-    if not Like.query.filter_by(user_id=current_user.id, request_id=request_id).first():
+    existing_like = Like.query.filter_by(user_id=current_user.id, request_id=request_id).first()
+    if existing_like:
+        db.session.delete(existing_like)
+        db.session.commit()
+        return jsonify({'likes': request.like_count(), 'liked': False})
+    else:
         like = Like(user_id=current_user.id, request_id=request_id)
         db.session.add(like)
         db.session.commit()
-        return jsonify({'likes': request.like_count()})
-    else:
-        return jsonify({'error': 'Already liked'}), 400
+        return jsonify({'likes': request.like_count(), 'liked': True})
 
 @app.route('/comment/<int:request_id>', methods=['POST'])
 @login_required
@@ -113,6 +117,44 @@ def comment_request(request_id):
             db.session.rollback()
             flash(f'Error adding comment: {e}', 'error')
     return redirect(url_for('dashboard'))
+
+@app.route('/edit_comment/<int:comment_id>', methods=['GET', 'POST'])
+@login_required
+def edit_comment(comment_id):
+    comment = Comment.query.get_or_404(comment_id)
+    if comment.user_id != current_user.id:
+        flash('You can only edit your own comments.', 'error')
+        return redirect(url_for('dashboard'))
+    
+    form = EditCommentForm()
+    if form.validate_on_submit():
+        comment.content = form.content.data
+        try:
+            db.session.commit()
+            flash('Comment edited successfully!', 'success')
+            return redirect(url_for('dashboard'))
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error editing comment: {e}', 'error')
+    else:
+        form.content.data = comment.content
+    return render_template('edit_comment.html', form=form, comment=comment)
+
+
+@app.route('/like_comment/<int:comment_id>', methods=['POST'])
+@login_required
+def like_comment(comment_id):
+    comment = Comment.query.get_or_404(comment_id)
+    existing_like = CommentLike.query.filter_by(user_id=current_user.id, comment_id=comment_id).first()
+    if existing_like:
+        db.session.delete(existing_like)
+        db.session.commit()
+        return jsonify({'likes': comment.like_count(), 'liked': False})
+    else:
+        like = CommentLike(user_id=current_user.id, comment_id=comment_id)
+        db.session.add(like)
+        db.session.commit()
+        return jsonify({'likes': comment.like_count(), 'liked': True})
 
 @app.errorhandler(404)
 def page_not_found(e):

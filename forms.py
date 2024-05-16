@@ -21,3 +21,7 @@ class RequestForm(FlaskForm):
 class CommentForm(FlaskForm):
     content = TextAreaField('Content', validators=[DataRequired(), Length(min=1, max=500)])
     submit = SubmitField('Submit Comment')
+
+class EditCommentForm(FlaskForm):
+    content = TextAreaField('Content', validators=[DataRequired(), Length(min=1, max=500)])
+    submit = SubmitField('Edit Comment')

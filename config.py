@@ -8,3 +8,4 @@ class Config(object):
         'requests': 'sqlite:///request.db'
     }
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+ 
