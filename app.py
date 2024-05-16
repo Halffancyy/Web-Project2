@@ -4,8 +4,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_wtf import CSRFProtect
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from config import Config
-from models import db, User, Request, Like
-from forms import RegisterForm, LoginForm, RequestForm
+from models import db, User, Request, Like, Comment
+from forms import RegisterForm, LoginForm, RequestForm, CommentForm
 
 app = Flask(__name__, instance_relative_config=True)
 app.config.from_object(Config)
@@ -59,14 +59,15 @@ def logout():
     flash('You have been logged out.')
     return redirect(url_for('login'))
 
-@app.route('/', methods=['GET'])
+@app.route('/', methods=['GET', 'POST'])
 @login_required
 def dashboard():
     query = request.args.get('query')
     requests = Request.query.filter(
         Request.title.ilike(f'%{query}%') | Request.description.ilike(f'%{query}%')
     ).all() if query else Request.query.all()
-    return render_template('dashboard.html', requests=requests)
+    comment_form = CommentForm()
+    return render_template('dashboard.html', requests=requests, comment_form=comment_form)
 
 @app.route('/create_request', methods=['GET', 'POST'])
 @login_required
@@ -97,6 +98,21 @@ def like_request(request_id):
         return jsonify({'likes': request.like_count()})
     else:
         return jsonify({'error': 'Already liked'}), 400
+
+@app.route('/comment/<int:request_id>', methods=['POST'])
+@login_required
+def comment_request(request_id):
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment = Comment(content=form.content.data, user_id=current_user.id, request_id=request_id)
+        try:
+            db.session.add(comment)
+            db.session.commit()
+            flash('Comment added successfully!', 'success')
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error adding comment: {e}', 'error')
+    return redirect(url_for('dashboard'))
 
 @app.errorhandler(404)
 def page_not_found(e):

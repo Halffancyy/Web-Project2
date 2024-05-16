@@ -1,26 +1,26 @@
-$(document).ready(function() {
-    $('.like-btn').click(function() {
-        var requestId = $(this).data('request-id');
-        var likeUrl = likeRequestUrlTemplate.replace('0', requestId);
+// static/js/like.js
 
-        $.ajax({
-            url: likeUrl,
-            type: 'POST',
-            headers: {
-                'X-CSRFToken': '{{ csrf_token() }}'
-            },
-            success: function(response) {
-                console.log('AJAX Success:', response);  // Add this line for debugging
-                if (response.error) {
-                    alert(response.error);
-                } else {
-                    $('button[data-request-id="' + requestId + '"] .badge').text(response.likes);
+document.addEventListener('DOMContentLoaded', (event) => {
+    const likeButtons = document.querySelectorAll('.like-btn');
+    likeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const requestId = this.getAttribute('data-request-id');
+            fetch(`/like/${requestId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 }
-            },
-            error: function(xhr, status, error) {
-                console.error('AJAX Error:', status, error);  // Add this line for debugging
-                alert('Error liking the request.');
-            }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.likes !== undefined) {
+                    this.querySelector('.badge').innerText = data.likes;
+                } else {
+                    alert(data.error);
+                }
+            })
+            .catch(error => console.error('Error:', error));
         });
     });
 });
