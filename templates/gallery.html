@@ -107,17 +107,25 @@
   </section>
   <article id="menubox" class="reveal-modal">
     <div class="boxes">
-      <form id="searchform" class="searchbox">
-        <input type="text" id="search" class="field searchtext" placeholder="Keyword..." />
-        <input type="submit" class="button" name="submit" value="Go" />
-      </form>
       <div class="box">
         <h3>Menu</h3>
         <nav>
           <ul>
             <li><a href="{{ url_for('post') }}">Post Page</a></li>
             <li><a href="{{ url_for('layout') }}">Layout</a></li>
+            <li><a href="{{ url_for('gallery') }}">Gallery Page</a></li>
             <li><a href="{{ url_for('logout') }}">Logout</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="box">
+        <h3>Group member</h3>
+        <nav>
+          <ul>
+            <li>Chen Shen</a></li>
+            <li>Jiaheng Gu</a></li>
+            <li>Shijun Shao</a></li>
+            <li>Weisi Zhang</a></li>
           </ul>
         </nav>
       </div>
