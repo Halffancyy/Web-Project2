@@ -1,4 +1,4 @@
-EDM For Life
+EDM 4 Life
 
 The best EDM music form (for us)
 
@@ -70,14 +70,15 @@ Delete a Comment
 Locate the comment you want to delete in the comment list.
 Click the "Delete" button next to the comment, and confirm the deletion.
 
-## Contributing
+Contributing
 
-| Name           | GitHub Username(s)           |
-| -------------- | ---------------------------- |
-| Shijun Shao    | Halffancyy                   |
-| Weisi Zhang    | Wiz6666                      |
-| Chen Shen      | erryshenfewcher, wsscnha     |
-| Jiaheng Gu     | HendrickGu                   |
+| Name           | GitHub Username(s)           | Student ID     |
+| -------------- | ---------------------------- | -------------- |
+| Shijun Shao    | Halffancyy                   | [Your Student ID] |
+| Weisi Zhang    | Wiz6666                      | [Your Student ID] |
+| Chen Shen      | erryshenfewcher, wsscnha     | 23877677 |
+| Jiaheng Gu     | HendrickGu                   | [Your Student ID] |
+
 
 
 License
