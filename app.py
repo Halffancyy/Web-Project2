@@ -4,8 +4,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_wtf import CSRFProtect
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from config import Config
-from models import db, User, Request, Like, Comment, CommentLike
-from forms import RegisterForm, LoginForm, RequestForm, CommentForm, EditCommentForm
+from models import db, User, Request, Like, Comment, UserDailyActivity, Point
+from forms import RegisterForm, LoginForm, RequestForm, CommentForm
+from datetime import date
+from flask_apscheduler import APScheduler
 
 app = Flask(__name__, instance_relative_config=True)
 app.config.from_object(Config)
@@ -23,6 +25,13 @@ def load_user(user_id):
 with app.app_context():
     db.create_all()
 
+
+# 默认介绍页面
+@app.route('/')
+def intro():
+    return render_template('introductory.html')
+
+# 用户注册页面
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
@@ -40,6 +49,7 @@ def register():
             print('Error: ' + str(e))
     return render_template('register.html', form=form)
 
+# 用户登录页面
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -47,11 +57,58 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         if user and user.check_password(form.password.data):
             login_user(user)
-            return redirect(url_for('dashboard'))
+            # 添加积分逻辑
+            today = date.today()
+            if not Point.query.filter_by(user_id=user.id, date=today, type='login').first():
+                point = Point(user_id=user.id, date=today, points=1, type='login')
+                db.session.add(point)
+                db.session.commit()
+            return redirect(url_for('index'))
         else:
             flash('Invalid username or password')
     return render_template('login.html', form=form)
 
+# 主页路由 (需要登录)
+@app.route('/index')
+@login_required
+def index():
+    return render_template('index.html')
+
+@app.route('/index-2')
+@login_required
+def index_2():
+    return render_template('index-2.html')
+
+# 画廊页面路由 (需要登录)
+@app.route('/gallery')
+@login_required
+def gallery():
+    return render_template('gallery.html')
+
+@app.route('/post')
+@login_required
+def post():
+    query = request.args.get('query')
+    requests = Request.query.filter(
+        Request.title.ilike(f'%{query}%') | Request.description.ilike(f'%{query}%')
+    ).all() if query else Request.query.all()
+    comment_form = CommentForm()
+    return render_template('post.html', requests=requests, comment_form=comment_form)
+
+# 单个帖子页面路由 (需要登录)
+@app.route('/single-post')
+@login_required
+def single_post():
+    return render_template('single-post.html')
+
+# 单个帖子页面路由 (需要登录)
+@app.route('/layout')
+@login_required
+def layout():
+    return render_template('layout.html')
+
+
+# 用户注销
 @app.route('/logout')
 @login_required
 def logout():
@@ -59,7 +116,8 @@ def logout():
     flash('You have been logged out.')
     return redirect(url_for('login'))
 
-@app.route('/', methods=['GET'])
+# 仪表板页面，显示请求列表并允许用户进行搜索 (需要登录)
+@app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
     query = request.args.get('query')
@@ -67,9 +125,9 @@ def dashboard():
         Request.title.ilike(f'%{query}%') | Request.description.ilike(f'%{query}%')
     ).all() if query else Request.query.all()
     comment_form = CommentForm()
-    edit_comment_form = EditCommentForm()
-    return render_template('dashboard.html', requests=requests, comment_form=comment_form, edit_comment_form=edit_comment_form)
+    return render_template('dashboard.html', requests=requests, comment_form=comment_form)
 
+# 创建新请求的页面 (需要登录)
 @app.route('/create_request', methods=['GET', 'POST'])
 @login_required
 def create_request():
@@ -82,87 +140,109 @@ def create_request():
             db.session.add(new_request)
             db.session.commit()
             flash('Request created successfully!', 'success')
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('post'))
         except Exception as e:
             db.session.rollback()
             flash(f'Error adding request: {e}', 'error')
     return render_template('create_request.html', form=form)
 
+# 点赞请求的接口 (需要登录)
 @app.route('/like/<int:request_id>', methods=['POST'])
 @login_required
 def like_request(request_id):
     request = Request.query.get_or_404(request_id)
-    existing_like = Like.query.filter_by(user_id=current_user.id, request_id=request_id).first()
-    if existing_like:
-        db.session.delete(existing_like)
+    today = date.today()
+    
+    # 获取用户当天的活动记录
+    activity = UserDailyActivity.query.filter_by(user_id=current_user.id, date=today).first()
+    if not activity:
+        activity = UserDailyActivity(user_id=current_user.id, date=today, likes_count=0, comments_count=0)
+        db.session.add(activity)
         db.session.commit()
-        return jsonify({'likes': request.like_count(), 'liked': False})
-    else:
+
+    if not Like.query.filter_by(user_id=current_user.id, request_id=request_id).first():
         like = Like(user_id=current_user.id, request_id=request_id)
         db.session.add(like)
+        if activity.likes_count < 5:
+            print(f"Adding point, current likes count: {activity.likes_count}")
+            point = Point(user_id=current_user.id, date=today, points=1, type='like')           
+            db.session.add(point)
+            flash('+1 point for liking!', 'success')
+        activity.likes_count += 1
+        db.session.add(activity)
         db.session.commit()
-        return jsonify({'likes': request.like_count(), 'liked': True})
+        return jsonify({'likes': request.like_count()})
+    else:
+        flash('Already liked', 'error')
+        return jsonify({'error': 'Already liked'}), 400
 
+# 评论请求的接口 (需要登录)
 @app.route('/comment/<int:request_id>', methods=['POST'])
 @login_required
 def comment_request(request_id):
     form = CommentForm()
     if form.validate_on_submit():
         comment = Comment(content=form.content.data, user_id=current_user.id, request_id=request_id)
-        try:
-            db.session.add(comment)
+        today = date.today()
+
+        # 获取用户当天的活动记录
+        activity = UserDailyActivity.query.filter_by(user_id=current_user.id, date=today).first()
+        if not activity:
+            activity = UserDailyActivity(user_id=current_user.id, date=today, likes_count=0, comments_count=0)
+            db.session.add(activity)
             db.session.commit()
-            flash('Comment added successfully!', 'success')
-        except Exception as e:
-            db.session.rollback()
-            flash(f'Error adding comment: {e}', 'error')
+
+        db.session.add(comment)
+        if activity.comments_count < 10:
+            points = 2 if len(form.content.data) > 50 else 1
+            point = Point(user_id=current_user.id, date=today, points=points, type='comment')
+            db.session.add(point)
+            if points == 2:
+                flash('+2 points for commenting!', 'success')
+            else:
+                flash('+1 point for commenting!', 'success')
+        activity.comments_count += 1
+        db.session.add(activity)
+        db.session.commit()
+        flash('Comment added successfully!', 'success')
+    else:
+        flash('Daily comment limit reached', 'error')
     return redirect(url_for('dashboard'))
 
-@app.route('/edit_comment/<int:comment_id>', methods=['GET', 'POST'])
+# 积分排行榜
+@app.route('/leaderboard')
 @login_required
-def edit_comment(comment_id):
-    comment = Comment.query.get_or_404(comment_id)
-    if comment.user_id != current_user.id:
-        flash('You can only edit your own comments.', 'error')
-        return redirect(url_for('dashboard'))
-    
-    form = EditCommentForm()
-    if form.validate_on_submit():
-        comment.content = form.content.data
-        try:
-            db.session.commit()
-            flash('Comment edited successfully!', 'success')
-            return redirect(url_for('dashboard'))
-        except Exception as e:
-            db.session.rollback()
-            flash(f'Error editing comment: {e}', 'error')
-    else:
-        form.content.data = comment.content
-    return render_template('edit_comment.html', form=form, comment=comment)
+def leaderboard():
+    scores = db.session.query(
+        User.username,
+        db.func.sum(Point.points).label('total_points')
+    ).join(Point).group_by(User.id).order_by(db.desc('total_points')).all()
+    return render_template('index.html', scores=scores, enumerate=enumerate)
 
-
-@app.route('/like_comment/<int:comment_id>', methods=['POST'])
-@login_required
-def like_comment(comment_id):
-    comment = Comment.query.get_or_404(comment_id)
-    existing_like = CommentLike.query.filter_by(user_id=current_user.id, comment_id=comment_id).first()
-    if existing_like:
-        db.session.delete(existing_like)
-        db.session.commit()
-        return jsonify({'likes': comment.like_count(), 'liked': False})
-    else:
-        like = CommentLike(user_id=current_user.id, comment_id=comment_id)
-        db.session.add(like)
-        db.session.commit()
-        return jsonify({'likes': comment.like_count(), 'liked': True})
-
+# 处理 404 错误
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
 
+# 处理 500 错误
 @app.errorhandler(500)
 def internal_server_error(e):
     return render_template('500.html'), 500
 
+# 定时任务：每日重置用户活动
+def reset_daily_activity():
+    today = date.today()
+    # 删除旧的记录或者重置计数
+    UserDailyActivity.query.filter(UserDailyActivity.date < today).delete()
+    db.session.commit()
+
+# 初始化和启动调度器
+scheduler = APScheduler()
+scheduler.init_app(app)
+scheduler.start()
+scheduler.add_job(id='Reset Daily Activity', func=reset_daily_activity, trigger='cron', hour=0)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
+
