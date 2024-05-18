@@ -7,3 +7,6 @@ Flask-Migrate
 email-validator  # Flask-WTF 
 Flask-bootstrap
 wtforms
+Flask-Migrate
+flask_apscheduler
+datetime

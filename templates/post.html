@@ -12,6 +12,8 @@
   <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" type="text/css" />
   <link href="{{ url_for('static', filename='css/grid.css') }}" rel="stylesheet" type="text/css" />
   <link href="{{ url_for('static', filename='css/media.css') }}" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
 </head>
 
 <body>
@@ -47,6 +49,11 @@
 
       <div class="single-post-title" style="margin-top: 20px">
         Recent Posts
+        <div class="sort-buttons" style="float: right;">
+          <a href="{{ url_for('post', sort_by='date') }}" class="btn btn-secondary btn-sm">Sort by Date</a>
+          |
+          <a href="{{ url_for('post', sort_by='likes') }}" class="btn btn-secondary btn-sm">Sort by Likes</a>
+        </div>
       </div>
       <div class="grids">
         {% if requests %} {% for request in requests %}
@@ -59,10 +66,14 @@
               Posted by {{ request.user.username }} on {{
               request.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}
             </p>
-            <p>{{ request.description }}</p>
+            <p>{% if request.description|length <= 50 %}
+              {{ request.description }}
+            {% else %}
+              {{ request.description[:50] }}...
+            {% endif %}</p>
             <!-- Like Button Start -->
             <button type="button" class="btn btn-primary like-btn" data-request-id="{{ request.id }}">
-              Like
+              <i class="fas fa-heart"></i>
               <span class="badge badge-light">{{ request.like_count() }}</span>
             </button>
             <!-- Like Button End -->
@@ -76,21 +87,7 @@
         <a href="{{ url_for('post') }}" class="button">Clear Search / Return</a>
       </div>
       <!-- Back Button End -->
-      <!-- Pagination  -->
-      <ul class="pagination">
-        <li class="arrow unavailable"><a href="#">&laquo;</a></li>
-        <li class="current"><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-        <li><a href="#">6</a></li>
-        <li><a href="#">7</a></li>
-        <li class="unavailable"><a href="#">&hellip;</a></li>
-        <li><a href="#">18</a></li>
-        <li><a href="#">19</a></li>
-        <li class="arrow"><a href="#">&raquo;</a></li>
-      </ul>
+    
     </div>
   </div>
   <!--Side bar-->

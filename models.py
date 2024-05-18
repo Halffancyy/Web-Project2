@@ -78,3 +78,4 @@ class UserDailyActivity(db.Model):
     comments_count = db.Column(db.Integer, default=0)
 
     user = db.relationship('User', back_populates='daily_activity')
+
