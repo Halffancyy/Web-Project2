@@ -1,10 +1,10 @@
 <!-- Rewards Section -->
 <div class="rewards">
-  <h4>积分奖励</h4>
-  <p>2000积分能够获得一个DJ手办</p>
+  <h4>Point Rewards</h4>
+  <p>Get a ……</p>
   <form method="post" action="{{ url_for('redeem_reward') }}">
     {{ form.csrf_token }}
-    <button type="submit">兑换奖励</button>
+    <button type="submit">……</button>
   </form>
 </div>
 </div>
@@ -23,5 +23,5 @@ def some_view():
 
 <form method="post" action="{{ url_for('redeem_reward') }}">
     <input type="hidden" name="csrf_token" value="{{ token }}">
-    <button type="submit">兑换奖励</button>
+    <button type="submit">……</button>
 </form>
