@@ -1,84 +1,102 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block title %}Request Forum Dashboard{% endblock %}
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Request Forum Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+</head>
 
-{% block content %}
-<h1>Welcome to the Request Forum</h1>
-<p>This forum allows users to create and answer requests.</p>
-<p>
-    Get started by
-    <a href="{{ url_for('create_request') }}">creating a request</a>
-</p>
-
-<!-- Search Form Start -->
-<div class="mb-3">
-    <form action="{{ url_for('dashboard') }}" method="get">
-        <div class="input-group">
-            <input type="text" class="form-control" id="searchBox" name="query" placeholder="Search requests..." aria-label="Search requests">
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="submit">Search</button>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('dashboard') }}">Request Forum</a>
+            <div class="navbar-nav ml-auto">
+                <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
             </div>
         </div>
-    </form>
-</div>
-<!-- Search Form End -->
+    </nav>
+    <div class="container">
+        <h1>Welcome, {{ current_user.username }}!</h1>
+        <p>This forum allows users to create and answer requests.</p>
+        <p>
+            Get started by
+            <a href="{{ url_for('create_request') }}" class="btn btn-primary">creating a request</a>
+        </p>
 
-<!-- Back Button Start -->
-<div class="mb-3">
-    <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Clear Search / Return</a>
-</div>
-<!-- Back Button End -->
+        <!-- Search Form Start -->
+        <div class="mb-3">
+            <form action="{{ url_for('dashboard') }}" method="get">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="searchBox" name="query" placeholder="Search requests..."
+                        aria-label="Search requests" />
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit">
+                            Search
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- Search Form End -->
 
-<h2>Recent Requests</h2>
-{% if requests %}
-    {% for request in requests %}
-    <div class="card mt-3">
-        <div class="card-body">
-            <h5 class="card-title">{{ request.title }}</h5>
-            <p class="card-text">{{ request.description }}</p>
-            <!-- Like Button Start -->
-            {% set liked = request.likes|selectattr('user_id', 'equalto', current_user.id)|list|length > 0 %}
-            <button type="button" class="btn btn-primary like-btn" data-request-id="{{ request.id }}">
-                {{ 'Unlike' if liked else 'Like' }} <span class="badge badge-light">{{ request.like_count() }}</span>
-            </button>
-            <!-- Like Button End -->
+        <!-- Back Button Start -->
+        <div class="mb-3">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Clear Search / Return</a>
+        </div>
+        <!-- Back Button End -->
 
-            <!-- Comments Start -->
-            <h6>Comments</h6>
-            {% for comment in request.comments %}
+        <h2>Recent Requests</h2>
+        <!-- Example of dynamic content rendering -->
+        <!-- Assume 'requests' is a list of request objects passed from the server-side -->
+        {% if requests %} {% for request in requests %}
+        <div class="card mt-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ request.title }}</h5>
+                <p class="card-text">{{ request.description }}</p>
+                <!-- Like Button Start -->
+                <button type="button" class="btn btn-primary like-btn" data-request-id="{{ request.id }}">
+                    Like
+                    <span class="badge badge-light">{{ request.like_count() }}</span>
+                </button>
+                <!-- Like Button End -->
+
+                <!-- Comments Start -->
+                <h6>Comments</h6>
+                {% for comment in request.comments %}
                 <div class="card mt-2">
                     <div class="card-body">
                         <p class="card-text">{{ comment.content }}</p>
-                        <p class="text-muted">by {{ comment.user.username }} on {{ comment.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</p>
-                        <!-- Comment Like Button Start -->
-                        {% set comment_liked = comment.likes|selectattr('user_id', 'equalto', current_user.id)|list|length > 0 %}
-                        <button type="button" class="btn btn-secondary comment-like-btn" data-comment-id="{{ comment.id }}">
-                            {{ 'Unlike' if comment_liked else 'Like' }} <span class="badge badge-light">{{ comment.like_count() }}</span>
-                        </button>
-                        <!-- Comment Like Button End -->
-                        <!-- Edit Comment Button Start -->
-                        {% if comment.user_id == current_user.id %}
-                        <a href="{{ url_for('edit_comment', comment_id=comment.id) }}" class="btn btn-primary">Edit</a>
-                        {% endif %}
-                        <!-- Edit Comment Button End -->
+                        <p class="text-muted">
+                            by {{ comment.user.username }} on {{
+                            comment.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}
+                        </p>
                     </div>
                 </div>
-            {% endfor %}
-            <!-- Comments End -->
+                {% endfor %}
+                <!-- Comments End -->
 
-            <!-- Comment Form Start -->
-            <form action="{{ url_for('comment_request', request_id=request.id) }}" method="post" class="mt-2">
-                {{ comment_form.hidden_tag() }}
-                <div class="form-group">
-                    {{ comment_form.content(class_="form-control", placeholder="Add a comment...") }}
-                </div>
-                <button type="submit" class="btn btn-secondary">Submit Comment</button>
-            </form>
-            <!-- Comment Form End -->
+                <!-- Comment Form Start -->
+                <form action="{{ url_for('comment_request', request_id=request.id) }}" method="post" class="mt-2">
+                    {{ comment_form.hidden_tag() }}
+                    <div class="form-group">
+                        {{ comment_form.content(class_="form-control", placeholder="Add a
+                        comment...") }}
+                    </div>
+                    <button type="submit" class="btn btn-secondary">
+                        Submit Comment
+                    </button>
+                </form>
+                <!-- Comment Form End -->
+            </div>
         </div>
+        {% endfor %} {% else %}
+        <p>No requests found.</p>
+        {% endif %}
     </div>
-    {% endfor %}
-{% else %}
-    <p>No requests found.</p>
-{% endif %}
-{% endblock %}
+</body>
+<script src="{{ url_for('static', filename='js/like.js') }}"></script>
+
+</html>
