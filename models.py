@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from datetime import datetime, date
+from flask_migrate import Migrate
 
 # 初始化 SQLAlchemy
 db = SQLAlchemy()
@@ -15,6 +16,7 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(128))  # 密码哈希
     likes = db.relationship('Like', backref='user', lazy=True)  # 与 Like 模型的关系，一对多
     comments = db.relationship('Comment', backref='user', lazy=True)  # 与 Comment 模型的关系，一对多
+    requests = db.relationship('Request', backref='author', lazy=True)
     points = db.relationship('Point', back_populates='user', lazy='dynamic')
     daily_activity = db.relationship('UserDailyActivity', back_populates='user', lazy='dynamic')
 
@@ -28,12 +30,15 @@ class User(db.Model, UserMixin):
 
 # 请求模型，继承自 db.Model
 class Request(db.Model):
-    __tablename__ = 'requests'  # 表名
-    id = db.Column(db.Integer, primary_key=True)  # 请求ID，主键
-    title = db.Column(db.String(100), nullable=False)  # 标题，不能为空
-    description = db.Column(db.Text, nullable=False)  # 描述，不能为空   
-    likes = db.relationship('Like', backref='request', lazy=True)  # 与 Like 模型的关系，一对多
-    comments = db.relationship('Comment', backref='request', lazy=True)  # 与 Comment 模型的关系，一对多
+    __tablename__ = 'requests'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    likes = db.relationship('Like', backref='request', lazy=True)
+    comments = db.relationship('Comment', backref='request', lazy=True)
+    user = db.relationship('User', backref='user_requests')
 
     # 计算点赞数
     def like_count(self):

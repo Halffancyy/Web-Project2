@@ -6,12 +6,14 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from config import Config
 from models import db, User, Request, Like, Comment, UserDailyActivity, Point
 from forms import RegisterForm, LoginForm, RequestForm, CommentForm
+from flask_migrate import Migrate
 from datetime import date
 from flask_apscheduler import APScheduler
 
 app = Flask(__name__, instance_relative_config=True)
 app.config.from_object(Config)
 db.init_app(app)
+migrate = Migrate(app, db)
 csrf = CSRFProtect(app)
 
 login_manager = LoginManager()
@@ -25,7 +27,14 @@ def load_user(user_id):
 with app.app_context():
     db.create_all()
 
-
+# 上下文处理器，为所有模板添加当前用户的积分
+@app.context_processor
+def inject_user_points():
+    if current_user.is_authenticated:
+        total_points = db.session.query(db.func.sum(Point.points)).filter(Point.user_id == current_user.id).scalar() or 0
+        return {'user_points': total_points}
+    return {}
+    
 # 默认介绍页面
 @app.route('/')
 def intro():
@@ -72,7 +81,10 @@ def login():
 @app.route('/index')
 @login_required
 def index():
-    return render_template('index.html')
+    # Query for the three most recent posts
+    recent_posts = Request.query.order_by(Request.timestamp.desc()).limit(3).all()
+    return render_template('index.html', recent_posts=recent_posts)
+
 
 @app.route('/index-2')
 @login_required
@@ -93,7 +105,10 @@ def post():
         Request.title.ilike(f'%{query}%') | Request.description.ilike(f'%{query}%')
     ).all() if query else Request.query.all()
     comment_form = CommentForm()
-    return render_template('post.html', requests=requests, comment_form=comment_form)
+    # Get the new request's id from the query parameters
+    new_request_id = request.args.get('request_id')
+    return render_template('post.html', requests=requests, comment_form=comment_form, new_request_id=new_request_id)
+
 
 # 单个帖子页面路由 (需要登录)
 @app.route('/single-post')
@@ -135,11 +150,12 @@ def create_request():
     if form.validate_on_submit():
         title = form.title.data
         description = form.description.data
-        new_request = Request(title=title, description=description)
+        new_request = Request(title=title, description=description,user_id=current_user.id)
         try:
             db.session.add(new_request)
             db.session.commit()
             flash('Request created successfully!', 'success')
+            # Redirect to post page with the new request's id
             return redirect(url_for('post'))
         except Exception as e:
             db.session.rollback()
@@ -242,7 +258,5 @@ scheduler.init_app(app)
 scheduler.start()
 scheduler.add_job(id='Reset Daily Activity', func=reset_daily_activity, trigger='cron', hour=0)
 
-
 if __name__ == '__main__':
     app.run(debug=True)
-
