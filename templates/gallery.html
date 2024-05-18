@@ -17,7 +17,7 @@
 <body>
   <!-- TOP MENU ITEMS -->
   <a id="menu" class="menuitem" data-reveal-id="menubox"><span class="info">Menu</span></a>
-  <a id="homepage" class="menuitem" href="{{ url_for('index') }}"><span class="info">Home</span></a>
+  <a id="homepage" class="menuitem" href="{{ url_for('site_views.index') }}"><span class="info">Home</span></a>
   <!-- HEADER  -->
   <header>
     <h1>EDM 4 Life</h1>
@@ -111,9 +111,10 @@
         <h3>Menu</h3>
         <nav>
           <ul>
-            <li><a href="{{ url_for('post') }}">Post Page</a></li>
-            <li><a href="{{ url_for('gallery') }}">Gallery Page</a></li>
-            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            <li><a href="{{ url_for('site_views.post') }}">Post Page</a></li>
+            <li><a href="{{ url_for('layout') }}">Layout</a></li>
+            <li><a href="{{ url_for('site_views.gallery') }}">Gallery Page</a></li>
+            <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
           </ul>
         </nav>
       </div>

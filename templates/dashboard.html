@@ -12,9 +12,9 @@
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-      <a class="navbar-brand" href="{{ url_for('dashboard') }}">Request Forum</a>
+      <a class="navbar-brand" href="{{ url_for('site_views.dashboard') }}">Request Forum</a>
       <div class="navbar-nav ml-auto">
-        <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
+        <a class="nav-item nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
       </div>
     </div>
   </nav>
@@ -23,12 +23,12 @@
     <p>This forum allows users to create and answer requests.</p>
     <p>
       Get started by
-      <a href="{{ url_for('create_request') }}" class="btn btn-primary">creating a request</a>
+      <a href="{{ url_for('posts.create_request') }}" class="btn btn-primary">creating a request</a>
     </p>
 
     <!-- Search Form Start -->
     <div class="mb-3">
-      <form action="{{ url_for('dashboard') }}" method="get">
+      <form action="{{ url_for('site_views.dashboard') }}" method="get">
         <div class="input-group">
           <input type="text" class="form-control" id="searchBox" name="query" placeholder="Search requests..."
             aria-label="Search requests" />
@@ -44,7 +44,7 @@
 
     <!-- Back Button Start -->
     <div class="mb-3">
-      <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Clear Search / Return</a>
+      <a href="{{ url_for('site.views.dashboard') }}" class="btn btn-primary">Clear Search / Return</a>
     </div>
     <!-- Back Button End -->
 
@@ -79,7 +79,7 @@
         <!-- Comments End -->
 
         <!-- Comment Form Start -->
-        <form action="{{ url_for('comment_request', request_id=request.id) }}" method="post" class="mt-2">
+        <form action="{{ url_for('comments.comment_request', request_id=request.id) }}" method="post" class="mt-2">
           {{ comment_form.hidden_tag() }}
           <div class="form-group">
             {{ comment_form.content(class_="form-control", placeholder="Add a

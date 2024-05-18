@@ -17,7 +17,7 @@
 <body>
   <!-- TOP MENU ITEMS -->
   <a id="menu" class="menuitem" data-reveal-id="menubox"><span class="info">Menu</span></a>
-  <a id="homepage" class="menuitem" href="{{ url_for('index') }}"><span class="info">Home</span></a>
+  <a id="homepage" class="menuitem" href="{{ url_for('site_views.index') }}"><span class="info">Home</span></a>
   <!-- HEADER -->
   <header>
     <h1>EDM 4 Life</h1>
@@ -56,7 +56,7 @@
     <p class="meta">
       {{ comment.user.username }} - {{ comment.timestamp.strftime('%d %B %Y @ %H:%M') }}
       {% if current_user.is_authenticated and current_user == comment.user %}
-        <a href="{{ url_for('delete_comment', comment_id=comment.id) }}"style="float: right;">Delete</a>
+        <a href="{{ url_for('comments.delete_comment', comment_id=comment.id) }}"style="float: right;">Delete</a>
       {% endif %}
     </p>
     <div class="comments_content">
@@ -69,7 +69,7 @@
 
   <!-- Comment Form -->
   <h5>Write a Comment</h5>
-  <form action="{{ url_for('comment_request', request_id=request.id) }}" method="post">
+  <form action="{{ url_for('comments.comment_request', request_id=request.id) }}" method="post">
     {{ comment_form.hidden_tag() }}
     <textarea id="content" name="content" rows="5" cols="60" placeholder="Your Comment">{{ comment_form.content.data }}</textarea>
     <input type="submit" class="button" value="Send Comment" />
@@ -88,10 +88,10 @@
         <h3>Menu</h3>
         <nav>
           <ul>
-            <li><a href="{{ url_for('post') }}">Post Page</a></li>
+            <li><a href="{{ url_for('site_views.post') }}">Post Page</a></li>
             <li><a href="{{ url_for('layout') }}">Layout</a></li>
-            <li><a href="{{ url_for('gallery') }}">Gallery Page</a></li>
-            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            <li><a href="{{ url_for('site_views.gallery') }}">Gallery Page</a></li>
+            <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
           </ul>
         </nav>
       </div>
