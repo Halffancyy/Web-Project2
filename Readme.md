@@ -123,6 +123,20 @@ This system is designed to encourage daily participation and contribute positive
 
 ### 1. Unit Tests
 
+`
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo dpkg -i google-chrome-stable_current_amd64.deb
+sudo apt --fix-broken install
+`
+
+`
+wget https://chromedriver.storage.googleapis.com/91.0.4472.19/chromedriver_linux64.zip
+unzip chromedriver_linux64.zip
+sudo mv chromedriver /usr/local/bin/
+sudo chmod +x /usr/local/bin/chromedriver
+
+`
+
 To run unit tests, use the following command:
 
 `python -m unittest tests.test_basic`
