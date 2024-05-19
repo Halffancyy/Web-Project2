@@ -5,7 +5,7 @@ from models import db, User, Request, Like, Point, UserDailyActivity
 from .forms import RequestForm
 from datetime import date
 
-# 创建新请求的页面 (需要登录)
+# Page for creating a new request (requires login)
 @posts.route('/create_request', methods=['GET', 'POST'])
 @login_required
 def create_request():
@@ -17,10 +17,10 @@ def create_request():
         db.session.add(new_request)
 
         today = date.today()
-        # 检查用户当天发帖是否已经获得积分5次
+         # Check if the user has earned points for posting 5 times today
         points_today = Point.query.filter_by(user_id=current_user.id, date=today, type='post').count()
         if points_today < 5:
-            # 添加积分
+            # Add points
             point = Point(user_id=current_user.id, date=today, points=3, type='post')
             db.session.add(point)
             flash('+3 points for creating a post!', 'success')
@@ -35,14 +35,14 @@ def create_request():
     
     return render_template('create_request.html', form=form)
 
-# 点赞请求的接口 (需要登录)
+# API endpoint for liking a request (requires login)
 @posts.route('/like/<int:request_id>', methods=['POST'])
 @login_required
 def like_request(request_id):
     request = Request.query.get_or_404(request_id)
     today = date.today()
     
-    # 获取用户当天的活动记录
+    # Get the user's activity record for the current day
     activity = UserDailyActivity.query.filter_by(user_id=current_user.id, date=today).first()
     if not activity:
         activity = UserDailyActivity(user_id=current_user.id, date=today, likes_count=0, comments_count=0)

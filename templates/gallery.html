@@ -1,147 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>EDM4Life</title>
+    <!-- META TAGS  -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- CSS FILES  -->
+    <link
+      href="{{ url_for('static', filename='css/normalize.css') }}"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="{{ url_for('static', filename='css/style.css') }}"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="{{ url_for('static', filename='css/grid.css') }}"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="{{ url_for('static', filename='css/media.css') }}"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="{{ url_for('static', filename='css/colorbox.css') }}"
+      rel="stylesheet"
+      type="text/css"
+    />
+  </head>
 
-<head>
-  <title>EDM4Life</title>
-  <!-- META TAGS  -->
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <!-- CSS FILES  -->
-  <link href="{{ url_for('static', filename='css/normalize.css') }}" rel="stylesheet" type="text/css" />
-  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" type="text/css" />
-  <link href="{{ url_for('static', filename='css/grid.css') }}" rel="stylesheet" type="text/css" />
-  <link href="{{ url_for('static', filename='css/media.css') }}" rel="stylesheet" type="text/css" />
-  <link href="{{ url_for('static', filename='css/colorbox.css') }}" rel="stylesheet" type="text/css" />
-</head>
+  <body>
+    <!-- TOP MENU ITEMS -->
+    <a id="menu" class="menuitem" data-reveal-id="menubox"
+      ><span class="info">Menu</span></a
+    >
+    <a id="homepage" class="menuitem" href="{{ url_for('site_views.index') }}"
+      ><span class="info">Home</span></a
+    >
+    <!-- HEADER  -->
+    <header>
+      <h1>EDM 4 Life</h1>
+    </header>
+    <!-- PAGE  -->
+    <div class="wrapper">
+      <div class="wrap">
+        <div class="single-page-title">Gallery</div>
+        <div id="main" role="main">
+          <!-- FILTERS -->
+          <ol id="filters">
+            <li data-filter="all" class="active">All</li>
+            <li data-filter="martin">Martin Garrix</li>
+            <li data-filter="david">David Guetta</li>
+            <li data-filter="san">San Holo</li>
+            <li data-filter="steve">Steve Aoki</li>
+            <li data-filter="youtube">YouTube</li>
+          </ol>
+          <!-- ITEMS -->
+          <ul id="tiles">
+            <li class="all martin">
+              <a
+                class="photo"
+                href="{{ url_for('static', filename='images/gallery/martin1.jpg') }}"
+                ><img
+                  src="{{ url_for('static', filename='images/gallery/martin1.jpg') }}"
+                  alt=""
+              /></a>
+              <p>Martin Garrix</p>
+            </li>
+            <li class="all youtube">
+              <a
+                class="iframe"
+                href="https://www.youtube.com/watch?v=sTmgaP2gYsk"
+                ><img
+                  src="{{ url_for('static', filename='images/photos/post3-thumb.jpg') }}"
+                  alt=""
+              /></a>
+              <p>YouTube</p>
+            </li>
+            <li class="all david">
+              <a
+                class="photo"
+                href="{{ url_for('static', filename='images/gallery/david1.jpg') }}"
+                ><img
+                  src="{{ url_for('static', filename='images/gallery/david1.jpg') }}"
+                  alt=""
+              /></a>
+              <p>David Guetta</p>
+            </li>
 
-<body>
-  <!-- TOP MENU ITEMS -->
-  <a id="menu" class="menuitem" data-reveal-id="menubox"><span class="info">Menu</span></a>
-  <a id="homepage" class="menuitem" href="{{ url_for('site_views.index') }}"><span class="info">Home</span></a>
-  <!-- HEADER  -->
-  <header>
-    <h1>EDM 4 Life</h1>
-  </header>
-  <!-- PAGE  -->
-  <div class="wrapper">
-    <div class="wrap">
-      <div class="single-page-title">Gallery</div>
-      <div id="main" role="main">
-        <!-- FILTERS -->
-        <ol id="filters">
-          <li data-filter="all" class="active">All</li>
-          <li data-filter="martin">Martin Garrix</li>
-          <li data-filter="david">David Guetta</li>
-          <li data-filter="san">San Holo</li>
-          <li data-filter="steve">Steve Aoki</li>
-          <li data-filter="youtube">YouTube</li>
-        </ol>
-        <!-- ITEMS -->
-        <ul id="tiles">
-          <li class="all martin">
-            <a class="photo" href="{{ url_for('static', filename='images/gallery/martin1.jpg') }}"><img
-                src="{{ url_for('static', filename='images/gallery/martin1.jpg') }}" alt="" /></a>
-            <p>Martin Garrix</p>
-          </li>
-          <li class="all youtube">
-            <a class="iframe" href="http://www.youtube.com/embed/1iIZeIy7TqM"><img
-                src="{{ url_for('static', filename='images/photos/post3-thumb.jpg') }}" alt="" /></a>
-            <p>YouTube</p>
-          </li>
-          <li class="all david">
-            <a class="photo" href="{{ url_for('static', filename='images/gallery/david1.jpg') }}"><img
-                src="{{ url_for('static', filename='images/gallery/david1.jpg') }}" alt="" /></a>
-            <p>David Guetta</p>
-          </li>
-
-          <li class="all david">
-            <a class="photo" href="{{ url_for('static', filename='images/gallery/david2.jpg') }}"><img
-                src="{{ url_for('static', filename='images/gallery/david2.jpg') }}" alt="" /></a>
-            <p>David Guetta</p>
-          </li>
-          <li class="all martin">
-            <a class="photo" href="{{ url_for('static', filename='images/gallery/martin2.jpg') }}"><img
-                src="{{ url_for('static', filename='images/gallery/martin2.jpg') }}" alt="" /></a>
-            <p>Martin Garrix</p>
-          </li>
-          <li class="all san">
-            <a class="photo" href="{{ url_for('static', filename='images/gallery/san1.jpg') }}"><img
-                src="{{ url_for('static', filename='images/gallery/san1.jpg') }}" alt="" /></a>
-            <p>San Holo</p>
-          </li>
-          <li class="all steve">
-            <a class="photo" href="{{ url_for('static', filename='images/photos/7-thumb.jpg') }}"><img
-                src="{{ url_for('static', filename='images/photos/7-thumb.jpg') }}" alt="" /></a>
-            <p>Steve Aoki</p>
-          </li>
-          <li class="all san">
-            <a class="photo" href="{{ url_for('static', filename='images/gallery/san2.jpg') }}"><img
-                src="{{ url_for('static', filename='images/gallery/san2.jpg') }}" alt="" /></a>
-            <p>San Holo</p>
-          </li>
-          <li class="all video1">
-            <a class="iframe" href="http://www.youtube.com/embed/1iIZeIy7TqM"><img
-                src="{{ url_for('static', filename='images/photos/post4-thumb.jpg') }}" alt="" /></a>
-            <p>YouTube</p>
-          </li>
-          <li class="all san">
-            <a class="photo" href="{{ url_for('static', filename='images/gallery/san3.jpg') }}"><img
-                src="{{ url_for('static', filename='images/gallery/san2.jpg') }}" alt="" /></a>
-            <p>San Holo</p>
-          </li>
-          <li class="all video1">
-            <a class="iframe" href="http://www.youtube.com/embed/1iIZeIy7TqM"><img
-                src="{{ url_for('static', filename='images/photos/post7-thumb.jpg') }}" alt="" /></a>
-            <p>YouTube</p>
-          </li>
-          <li class="all steve">
-            <a class="photo" href="{{ url_for('static', filename='images/gallery/youtube1.jpg') }}"><img
-                src="{{ url_for('static', filename='images/photos/1-thumb.jpg') }}" alt="" /></a>
-            <p>Steve Aoki</p>
-          </li>
-        </ul>
+            <li class="all david">
+              <a
+                class="photo"
+                href="{{ url_for('static', filename='images/gallery/david2.jpg') }}"
+                ><img
+                  src="{{ url_for('static', filename='images/gallery/david2.jpg') }}"
+                  alt=""
+              /></a>
+              <p>David Guetta</p>
+            </li>
+            <li class="all martin">
+              <a
+                class="photo"
+                href="{{ url_for('static', filename='images/gallery/martin2.jpg') }}"
+                ><img
+                  src="{{ url_for('static', filename='images/gallery/martin2.jpg') }}"
+                  alt=""
+              /></a>
+              <p>Martin Garrix</p>
+            </li>
+            <li class="all san">
+              <a
+                class="photo"
+                href="{{ url_for('static', filename='images/gallery/san1.jpg') }}"
+                ><img
+                  src="{{ url_for('static', filename='images/gallery/san1.jpg') }}"
+                  alt=""
+              /></a>
+              <p>San Holo</p>
+            </li>
+            <li class="all steve">
+              <a
+                class="photo"
+                href="{{ url_for('static', filename='images/photos/7-thumb.jpg') }}"
+                ><img
+                  src="{{ url_for('static', filename='images/photos/7-thumb.jpg') }}"
+                  alt=""
+              /></a>
+              <p>Steve Aoki</p>
+            </li>
+            <li class="all san">
+              <a
+                class="photo"
+                href="{{ url_for('static', filename='images/gallery/san2.jpg') }}"
+                ><img
+                  src="{{ url_for('static', filename='images/gallery/san2.jpg') }}"
+                  alt=""
+              /></a>
+              <p>San Holo</p>
+            </li>
+            <li class="all video1">
+              <a
+                class="iframe"
+                href="https://www.youtube.com/watch?v=sTmgaP2gYsk"
+                ><img
+                  src="{{ url_for('static', filename='images/photos/post4-thumb.jpg') }}"
+                  alt=""
+              /></a>
+              <p>YouTube</p>
+            </li>
+            <li class="all video1">
+              <a
+                class="iframe"
+                href="https://www.youtube.com/watch?v=sTmgaP2gYsk"
+                ><img
+                  src="{{ url_for('static', filename='images/photos/post7-thumb.jpg') }}"
+                  alt=""
+              /></a>
+              <p>YouTube</p>
+            </li>
+            <li class="all steve">
+              <a
+                class="photo"
+                href="{{ url_for('static', filename='images/photos/1-thumb.jpg') }}"
+                ><img
+                  src="{{ url_for('static', filename='images/photos/1-thumb.jpg') }}"
+                  alt=""
+              /></a>
+              <p>Steve Aoki</p>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
-  <!--Side bar-->
-  </section>
-  <article id="menubox" class="reveal-modal">
-    <div class="boxes">
-      <div class="box">
-        <h3>Menu</h3>
-        <nav>
-          <ul>
-            <li><a href="{{ url_for('site_views.post') }}">Post Page</a></li>
-            <li><a href="{{ url_for('site_views.gallery') }}">Gallery Page</a></li>
-            <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
-          </ul>
-        </nav>
+    <!--Side bar-->
+    <article id="menubox" class="reveal-modal">
+      <div class="boxes">
+        <div class="box">
+          <h3>Menu</h3>
+          <nav>
+            <ul>
+              <li><a href="{{ url_for('site_views.post') }}">Post Page</a></li>
+              <li>
+                <a href="{{ url_for('site_views.gallery') }}">Gallery Page</a>
+              </li>
+              <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="box">
+          <h3>Group member</h3>
+          <nav>
+            <ul>
+              <li>Chen Shen</li>
+              <li>Jiaheng Gu</li>
+              <li>Shijun Shao</li>
+              <li>Weisi Zhang</li>
+            </ul>
+          </nav>
+        </div>
       </div>
-      <div class="box">
-        <h3>Group member</h3>
-        <nav>
-          <ul>
-            <li>Chen Shen</a></li>
-            <li>Jiaheng Gu</a></li>
-            <li>Shijun Shao</a></li>
-            <li>Weisi Zhang</a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-    <a class="close-reveal-modal">&#215;</a>
-  </article>
-  </footer>
-  <!-- JS FILES  -->
-  <script src="{{ url_for('static', filename='js/jquery.js') }}" type="text/javascript"></script>
-  <script src="{{ url_for('static', filename='js/jquery.backstretch.min.js') }}" type="text/javascript"></script>
-  <script src="{{ url_for('static', filename='js/jquery.reveal.js') }}" type="text/javascript"></script>
-  <script src="{{ url_for('static', filename='js/jquery.wookmark.js') }}" type="text/javascript"></script>
-  <script src="{{ url_for('static', filename='js/jquery.imagesloaded.js') }}" type="text/javascript"></script>
-  <script src="{{ url_for('static', filename='js/custom2.js') }}" type="text/javascript"></script>
-  <script type="text/javascript">
-    $("body").backstretch("{{ url_for('static', filename='images/music-bg.png') }}");
-  </script>
-</body>
-
+      <a class="close-reveal-modal">&#215;</a>
+    </article>
+    <!-- JS FILES  -->
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.backstretch.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.reveal.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.wookmark.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.imagesloaded.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/custom2.js') }}"></script>
+    <script>
+      $("body").backstretch(
+        "{{ url_for('static', filename='images/music-bg.png') }}"
+      );
+    </script>
+  </body>
 </html>

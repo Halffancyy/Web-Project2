@@ -5,7 +5,7 @@ from models import db, Comment, UserDailyActivity, Point
 from comments.forms import CommentForm
 from datetime import date
 
-# 评论请求的接口 (需要登录)
+# API endpoint for commenting on requests (requires login)
 @comments.route('/comment/<int:request_id>', methods=['POST'])
 @login_required
 def comment_request(request_id):
@@ -14,7 +14,7 @@ def comment_request(request_id):
         comment = Comment(content=form.content.data, user_id=current_user.id, request_id=request_id)
         today = date.today()
 
-        # 获取用户当天的活动记录
+         # Get the user's activity record for the current day
         activity = UserDailyActivity.query.filter_by(user_id=current_user.id, date=today).first()
         if not activity:
             activity = UserDailyActivity(user_id=current_user.id, date=today, likes_count=0, comments_count=0)

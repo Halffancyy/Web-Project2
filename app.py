@@ -39,7 +39,7 @@ def create_app(config_class=Config):
     with app.app_context():
         db.create_all()
 
-    # 上下文处理器，为所有模板添加当前用户的积分
+    # Context processor to add the total points of the current user to all templates
     @app.context_processor
     def inject_user_points():
         if current_user.is_authenticated:
@@ -47,27 +47,21 @@ def create_app(config_class=Config):
             return {'user_points': total_points}
         return {}
 
-    # 要删的
-    # 单个帖子页面路由 (需要登录)
-    @app.route('/layout')
-    @login_required
-    def layout():
-        return render_template('layout.html')
 
-    # 处理 404 错误
+     # Handle 404 errors
     @app.errorhandler(404)
     def page_not_found(e):
         return render_template('404.html'), 404
 
-    # 处理 500 错误
+    # Handle 500 errors
     @app.errorhandler(500)
     def internal_server_error(e):
         return render_template('500.html'), 500
 
-    # 定时任务：每日重置用户活动
+     # Scheduled task: reset user activity daily
     def reset_daily_activity():
         today = date.today()
-        # 删除旧的记录或者重置计数
+        # Delete old records or reset counts
         UserDailyActivity.query.filter(UserDailyActivity.date < today).delete()
         db.session.commit()
 

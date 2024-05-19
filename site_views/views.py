@@ -5,12 +5,12 @@ from models import db, User, Request, Like, Comment, Point
 from comments.forms import CommentForm
 from datetime import date
 
-# 默认介绍页面
+# Default introductory page
 @site_views.route('/')
 def intro():
     return render_template('introductory.html')
 
-# 主页路由 (需要登录)
+# Homepage route (requires login)
 @site_views.route('/index')
 @login_required
 def index():
@@ -30,12 +30,13 @@ def index():
 def index_2():
     return render_template('index-2.html')
 
-# 画廊页面路由 (需要登录)
+# Gallery page route (requires login)
 @site_views.route('/gallery')
 @login_required
 def gallery():
     return render_template('gallery.html')
 
+# Post page route (requires login)
 @site_views.route('/post')
 @login_required
 def post():
@@ -60,7 +61,7 @@ def post():
     return render_template('post.html', requests=requests, comment_form=comment_form, new_request_id=new_request_id)
 
 
-# 单个帖子页面路由 (需要登录)
+# Single post page route (requires login)
 @site_views.route('/single-post/<int:request_id>')
 @login_required
 def single_post(request_id):

@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      content="width=device-width, initial-scale=1.0"
     />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- CSS FILES  -->
@@ -38,9 +38,10 @@
   </head>
 
   <body
-    id="home"
-    style="background: url('{{ url_for('static', filename='images/photos/concert.png') }}') no-repeat center center fixed; background-size: cover;"
-  >
+  id="home"
+  style="background: url({{ url_for('static', filename='images/photos/concert.png') }}) no-repeat center center fixed; background-size: cover"
+>
+
     <!-- TOP MENU ITEMS  -->
     <a id="gallery" href="{{ url_for('site_views.gallery') }}" class="menuitem"
       ><span class="info">Gallery</span></a
@@ -68,7 +69,7 @@
       <!-- ABOUT  -->
       <article
         class="column about"
-        style="background: url('{{ url_for('static', filename='images/photos/13.jpg') }}') no-repeat center center; background-size: cover;"
+        style="background: url({{ url_for('static', filename='images/photos/13.jpg') }}) no-repeat center center; background-size: cover"
       >
         <div class="desc">
           <div class="content">
@@ -85,7 +86,7 @@
       <!-- ALBUMS  -->
       <article
         class="column albums"
-        style="background: url('{{ url_for('static', filename='images/photos/4.png') }}') no-repeat center center; background-size: cover;"
+        style="background: url({{ url_for('static', filename='images/photos/4.png') }}) no-repeat center center; background-size: cover"
       >
         <div class="desc">
           <div class="content">
@@ -182,7 +183,7 @@
       <!--Post-->
       <article
         class="column post"
-        style="background: url('{{ url_for('static', filename='images/photos/12.webp') }}') no-repeat center center; background-size: cover;"
+        style="background: url({{ url_for('static', filename='images/photos/12.webp') }}) no-repeat center center; background-size: cover"
       >
         <div class="desc">
           <div class="content">
@@ -227,7 +228,7 @@
       <!-- Point -->
       <article
         class="column contact"
-        style="background: url('{{ url_for('static', filename='images/photos/9.jpg') }}') no-repeat center center; background-size: cover;"
+        style="background: url({{ url_for('static', filename='images/photos/9.jpg') }}) no-repeat center center; background-size: cover"
       >
         <div class="desc">
           <div class="content">
@@ -250,15 +251,11 @@
                       <th>Points</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {% for score in scores %}
-                    <tr>
+                  <tbody>{% for score in scores %}<tr>
                       <td>{{ loop.index }}</td>
                       <td>{{ score.username }}</td>
                       <td>{{ score.total_points }}</td>
-                    </tr>
-                    {% endfor %}
-                  </tbody>
+                    </tr>{% endfor %}</tbody>
                 </table>
               </div>
             </div>
@@ -313,7 +310,6 @@
     ></script>
     <script type="text/javascript">
       $(document).ready(function () {
-        // audio size
         $("body").find("audio").mediaelementplayer({ audioWidth: 380 });
       });
     </script>
