@@ -162,13 +162,17 @@ Our system tests test login functionality and compatibility with Chrome browser.
 `python -m unittest tests.test_system`
 
 ## Contributing
+<div align="center">
 
-| Name           | GitHub Username(s)           | Student ID     |
-| -------------- | ---------------------------- | -------------- |
-| Shijun Shao    | Halffancyy                   | 23926903       |
-| Weisi Zhang    | Wiz6666                      | 23210735       |
-| Chen Shen      | jerryshenfewcher, wsscnha     | 23877677       |
-| Jiaheng Gu     | HendrickGu                   | 23925667       |
+| Name  | Github Username(s) | Student ID |
+| ---------- | -----------| -----------|
+| Shijun Shao   | Halffancyy | 23926903 |
+| Weisi Zhang   |Wiz6666   | 23210735 |
+| Chen Shen | jerryshenfewcher, wsscnha | 23877677 |
+| Jiaheng Gu | HendrickGu | 23925667 |
+
+</div>
+
 
 ## License
 
