@@ -149,7 +149,7 @@ This will test:
 | -------------- | ---------------------------- | -------------- |
 | Shijun Shao    | Halffancyy                   | 23926903       |
 | Weisi Zhang    | Wiz6666                      | 23210735       |
-| Chen Shen      | erryshenfewcher, wsscnha     | 23877677       |
+| Chen Shen      | jerryshenfewcher, wsscnha     | 23877677       |
 | Jiaheng Gu     | HendrickGu                   | 23925667       |
 
 ## License
