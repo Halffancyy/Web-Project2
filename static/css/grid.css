@@ -10,34 +10,37 @@ Toast Framework - grid.css
   padding: 10px 15px 10px 30px;
   margin: 0 auto;
   background-color: #000;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
   min-height: 600px;
 }
+
+
 /*
-Column container
+  Container for grid columns
 */
 .grids {
   width: auto;
   max-width: 1000px;
-  margin: 0 0 0 -1.7%;
-  list-style: none;
-  /* So we can make grids out of lists. */
+  margin: 0 0 0 -1.7%; /* Adjusting for grid spacing */
+  list-style: none; /* Allows using lists for grids */
+ 
 
-  overflow: hidden;
-  /* Clear the floats */
+  overflow: hidden;/* Clears floated elements */
 
-  letter-spacing: -0.25em; /* Fix inline-block weirdness */
+  letter-spacing: -0.25em;  /* Fixes inline-block spacing issues */
 }
 .grids [class*="grid-"] {
   display: inline-block;
-  margin: 0 0 0 1.7%;
-  -webkit-box-sizing: border-box; /* Allow padding & borders on grids without breaking. IE8+ */
+  margin: 0 0 0 1.7%; /* Space between grid items */
+  -webkit-box-sizing: border-box;/* Includes padding and border in the element's total width and height */
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  vertical-align: top;
-  letter-spacing: 0; /* And restore our letter spacing. */
-  padding: 15px;
+  vertical-align: top; /* Aligns grid items to the top */
+  letter-spacing: 0; /* Resets letter spacing */
+  padding: 15px; /* Adds padding inside grid items */
 }
+
+/* Define grid widths for different column spans */
 .grid-1 {
   width: 6.15%;
 }
@@ -78,6 +81,8 @@ Column container
   width: 97.917%;
   margin: 0;
 }
+
+/* Responsive adjustments for screens narrower than 700px */
 @media screen and (max-width: 700px) {
   .grids {
     margin: 0;

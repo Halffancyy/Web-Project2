@@ -1,68 +1,73 @@
-﻿@media only screen and (max-device-width: 800px),
+﻿/* Responsive adjustments for specific screen sizes and orientations */
+@media only screen and (max-device-width: 800px),
   only screen and (device-width: 1024px) and (device-height: 600px),
   only screen and (width: 1280px) and (orientation: landscape),
   only screen and (device-width: 800px),
   only screen and (max-width: 767px) {
   .flex-video {
-    padding-top: 0;
+    padding-top: 0; /* Remove top padding for flex video */
   }
 }
+
+/* Adjustments for screens with max-width of 1024px */
 @media only screen and (max-width: 1024px) {
   .wrapper {
-    margin-top: 120px;
+    margin-top: 120px; /* Increase top margin for wrapper */
   }
   .single-page-title {
-    margin-left: -30px;
-    margin-right: -15px;
+    margin-left: -30px; /* Adjust left margin */
+    margin-right: -15px; /* Adjust right margin */
   }
   .single-page-title:before,
   .single-page-title:after {
-    display: none;
+    display: none; /* Hide pseudo-elements */
   }
 }
+
+/* Adjustments for screens with max-width of 800px */
 @media only screen and (max-width: 800px) {
   header h1 {
-    font-size: 50px;
+    font-size: 50px; /* Decrease font size for header h1 */
   }
   #filters li {
-    font-size: 14px;
+    font-size: 14px; /* Decrease font size for filter items */
   }
   .page-title {
-    font-size: 30px;
-    padding-top: 15px;
-    margin-bottom: 20px;
+    font-size: 30px; /* Adjust page title font size */
+    padding-top: 15px; /* Add padding to top */
+    margin-bottom: 20px; /* Add margin to bottom */
   }
   .single-page-title {
-    font-size: 40px;
+    font-size: 40px; /* Adjust single page title font size */
   }
   h1 {
-    font-size: 40px;
+    font-size: 40px; /* Adjust h1 font size */
   }
   h2 {
-    font-size: 30px;
+    font-size: 30px; /* Adjust h2 font size */
   }
   h3 {
-    font-size: 24px;
+    font-size: 24px; /* Adjust h3 font size */
   }
   h4 {
-    font-size: 22px;
+    font-size: 22px; /* Adjust h4 font size */
   }
   h5 {
-    font-size: 20px;
+    font-size: 20px; /* Adjust h5 font size */
   }
   h6 {
-    font-size: 18px;
+    font-size: 18px; /* Adjust h6 font size */
   }
   .date {
-    font-size: 14px;
-    line-height: 40px;
+    font-size: 14px; /* Adjust date font size */
+    line-height: 40px; /* Adjust line height */
   }
   .all-button {
-    font-size: 14px;
+    font-size: 14px; /* Adjust button font size */
   }
   label {
-    padding: 5px;
-    margin-right: 5px;
+    padding: 5px; /* Add padding to labels */
+    margin-right: 5px; /* Add right margin to labels */
   }
   input[type="text"],
   input[type="email"],
@@ -72,109 +77,107 @@
   .button,
   p,
   body {
-    font-size: 12px;
+    font-size: 12px; /* Adjust font size for inputs, buttons, paragraphs, and body */
   }
   .social-icons li img {
-    width: 34px;
+    width: 34px; /* Adjust width for social icon images */
   }
 }
+
+/* Adjustments for screens with max-width of 640px */
 @media only screen and (max-width: 640px) {
   header h1 {
-    font-size: 40px;
+    font-size: 40px; /* Further decrease font size for header h1 */
   }
   .page-title {
-    font-size: 20px;
-    padding-top: 25px;
-    margin-bottom: 30px;
+    font-size: 20px; /* Adjust page title font size */
+    padding-top: 25px; /* Add padding to top */
+    margin-bottom: 30px; /* Add margin to bottom */
   }
   .single-page-title {
-    font-size: 30px;
+    font-size: 30px; /* Adjust single page title font size */
   }
   h1 {
-    font-size: 30px;
+    font-size: 30px; /* Adjust h1 font size */
   }
   h2 {
-    font-size: 24px;
+    font-size: 24px; /* Adjust h2 font size */
   }
   h3 {
-    font-size: 20px;
+    font-size: 20px; /* Adjust h3 font size */
   }
   h4 {
-    font-size: 18px;
+    font-size: 18px; /* Adjust h4 font size */
   }
   h5 {
-    font-size: 16px;
+    font-size: 16px; /* Adjust h5 font size */
   }
   h6 {
-    font-size: 14px;
+    font-size: 14px; /* Adjust h6 font size */
   }
   .date {
-    font-size: 14px;
-    line-height: 34px;
+    font-size: 14px; /* Adjust date font size */
+    line-height: 34px; /* Adjust line height */
   }
   .all-button {
-    font-size: 12px;
+    font-size: 12px; /* Adjust button font size */
   }
   #gallery,
   #blog {
-    display: none;
+    display: none; /* Hide gallery and blog sections */
   }
   #next,
   #prev {
-    top: 40%;
-    padding: 0px 7px 0px 15px;
-    cursor: pointer;
-    height: 40px;
-    width: 40px;
+    top: 40%; /* Adjust position to 40% from top */
+    padding: 0px 7px 0px 15px; /* Add padding to navigation buttons */
+    cursor: pointer; /* Change cursor to pointer */
+    height: 40px; /* Adjust height */
+    width: 40px; /* Adjust width */
   }
   #next {
-    background-image: url("../images/right-s.png");
+    background-image: url("../images/right-s.png"); /* Set background image for next button */
   }
   #prev {
-    background-image: url("../images/left-s.png");
+    background-image: url("../images/left-s.png"); /* Set background image for previous button */
   }
   #next:hover {
-    background-image: url("../images/right2-s.png");
+    background-image: url("../images/right2-s.png"); /* Change background image on hover */
   }
   #prev:hover {
-    background-image: url("../images/left2-s.png");
+    background-image: url("../images/left2-s.png"); /* Change background image on hover */
   }
   .post-img {
-    margin-bottom: 0px;
+    margin-bottom: 0px; /* Remove bottom margin for post images */
   }
 }
+
+/* Adjustments for screens with max-width of 480px */
 @media only screen and (max-width: 480px) {
   #homepage {
-    display: none;
+    display: none; /* Hide homepage section */
   }
   #home {
-    overflow: auto !important;
+    overflow: auto !important; /* Ensure overflow is handled */
   }
   .main {
-    position: relative;
-    margin-top: 80px;
+    position: relative; /* Set position to relative */
+    margin-top: 80px; /* Add top margin */
   }
   #arrows {
-    display: none;
+    display: none; /* Hide arrows */
   }
   .column {
-    width: 100%;
+    width: 100%; /* Set columns to full width */
   }
   .desc {
-    height: 100%;
-    position: relative;
-    margin-top: -20px !important;
+    height: 100%; /* Set description height to full */
+    position: relative; /* Set position to relative */
+    margin-top: -20px !important; /* Adjust top margin */
   }
-
   section {
-    display: block;
+    display: block; /* Set sections to block display */
   }
   .page-title {
-    font-size: 30px;
-    padding-top: 25px;
-    margin-bottom: 10px;
-  }
-  .reveal-modal {
-    min-width: 0px;
-  }
-}
+    font-size: 30px; /* Adjust page title font size */
+    padding-top: 25px; /* Add padding to top */
+    margin-bottom

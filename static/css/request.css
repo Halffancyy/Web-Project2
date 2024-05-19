@@ -1,41 +1,41 @@
 html,
 body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+  height: 100%; /* Ensure html and body take full height */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
 }
 
 body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(to bottom, #000000, #434343);
-  color: #ffffff;
-  font-family: Arial, sans-serif;
+  display: flex; /* Use flexbox for layout */
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
+  background: linear-gradient(to bottom, #000000, #434343); /* Apply a gradient background */
+  color: #ffffff; /* Set text color to white */
+  font-family: Arial, sans-serif; /* Use Arial font */
 }
 
 .container {
-  width: 100%;
-  max-width: 600px;
-  background: rgba(0, 0, 0, 0.8);
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  width: 100%; /* Full width for the container */
+  max-width: 600px; /* Set a maximum width */
+  background: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
+  padding: 20px; /* Padding inside the container */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Subtle shadow effect */
 }
 
 h1 {
-  font-family: "Impact", sans-serif;
-  text-align: center;
-  color: #ff0000;
-  margin-bottom: 30px;
+  font-family: "Impact", sans-serif; /* Use Impact font for the heading */
+  text-align: center; /* Center the heading text */
+  color: #ff0000; /* Red color for the heading */
+  margin-bottom: 30px; /* Space below the heading */
 }
 
 .btn-primary {
-  background-color: #ff0000;
-  border-color: #ff0000;
+  background-color: #ff0000; /* Red background for primary button */
+  border-color: #ff0000; /* Red border for primary button */
 }
 
 .btn-primary:hover {
-  background-color: #cc0000;
-  border-color: #cc0000;
+  background-color: #cc0000; /* Darker red background on hover */
+  border-color: #cc0000; /* Darker red border on hover */
 }
