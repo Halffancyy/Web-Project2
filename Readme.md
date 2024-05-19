@@ -134,7 +134,6 @@ wget https://chromedriver.storage.googleapis.com/91.0.4472.19/chromedriver_linux
 unzip chromedriver_linux64.zip
 sudo mv chromedriver /usr/local/bin/
 sudo chmod +x /usr/local/bin/chromedriver
-
 `
 
 To run unit tests, use the following command:
