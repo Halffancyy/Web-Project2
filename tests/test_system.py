@@ -19,36 +19,38 @@ class TestSelenium(unittest.TestCase):
 
     def setUp(self):
         """
-        设置测试环境，包括创建测试应用、启动 Flask 服务器和 Selenium WebDriver。
+        Set up the test environment, including creating a test application,
+        starting the Flask server, and initializing the Selenium WebDriver.
         """
-        # 创建测试应用
+        # Create test application
         self.testApp = create_app(TestConfig)
         self.app_context = self.testApp.app_context()
         self.app_context.push()
         db.create_all()
         self.add_test_data()
 
-        # 打印数据库中的用户信息以确认用户是否已被添加
+        # Print users in the database to confirm the user has been added
         users = User.query.all()
         print(f"Users in database: {[user.username for user in users]}")
 
-        # 启动 Flask 服务器
+        # Start Flask server
         flask_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../venv/bin/flask')
         self.server_process = subprocess.Popen([flask_path, "run"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, env={"FLASK_APP": "app.py", **os.environ})
-        time.sleep(5)  # 等待服务器启动
+        time.sleep(5)  # Wait for the server to start
 
-        # 启动 Selenium WebDriver
+        # Start Selenium WebDriver
         options = webdriver.ChromeOptions()
         options.add_argument("--headless=new")
-        options.binary_location = "/usr/bin/google-chrome"  # 添加这一行，指定 Chrome 浏览器路径
+        options.binary_location = "/usr/bin/google-chrome"  # Specify the Chrome browser path
         self.driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
         self.driver.get(localHost)
 
     def tearDown(self):
         """
-        清理测试环境，包括终止 Flask 服务器和 Selenium WebDriver。
+        Clean up the test environment, including terminating the Flask server
+        and the Selenium WebDriver.
         """
-        # 终止 Flask 服务器和 Selenium WebDriver
+        # Terminate Flask server and Selenium WebDriver
         self.server_process.terminate()
         self.server_process.wait()
         self.driver.quit()
@@ -58,7 +60,7 @@ class TestSelenium(unittest.TestCase):
 
     def add_test_data(self):
         """
-        添加测试数据到数据库中。
+        Add test data to the database.
         """
         user = User(username='testuser', email='test@example.com')
         user.set_password('testpassword')
@@ -67,12 +69,12 @@ class TestSelenium(unittest.TestCase):
 
     def test_user_login(self):
         """
-        测试用户登录功能。
+        Test the user login functionality.
         """
         print("Navigating to login page...")
         self.driver.get(localHost + "auth/login")
         
-        # 使用显式等待确保元素加载完成
+        # Use explicit wait to ensure elements are loaded
         try:
             print("Waiting for username input...")
             username_input = WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.NAME, 'username')))
@@ -92,14 +94,14 @@ class TestSelenium(unittest.TestCase):
             
             print("Login button clicked")
             
-            # 增加短暂延迟以确保页面有时间处理请求
-            time.sleep(5)  # 等待页面加载
+            # Add a short delay to ensure the page has time to process the request
+            time.sleep(5)  # Wait for the page to load
             
-            # 打印当前页面的URL和源代码
+            # Print the current URL and page source
             current_url = self.driver.current_url
             print(f"Current URL: {current_url}")
             with open("page_source_after_login.html", "w", encoding="utf-8") as f:
-                f.write(self.driver.page_source)  # 保存页面源代码
+                f.write(self.driver.page_source)  # Save page source
             
             print("Waiting for index page to load...")
             WebDriverWait(self.driver, 20).until(EC.url_changes(localHost + "auth/login"))
@@ -112,10 +114,10 @@ class TestSelenium(unittest.TestCase):
             self.assertIsNotNone(username_display, "Login failed, 'testuser' not found on the index page.")
         except Exception as e:
             print("Error during test execution:")
-            traceback.print_exc()  # 打印详细的异常堆栈信息
-            self.driver.save_screenshot('screenshot.png')  # 截取页面截图并保存
+            traceback.print_exc()  # Print detailed exception stack trace
+            self.driver.save_screenshot('screenshot.png')  # Take and save a screenshot
             with open("page_source.html", "w", encoding="utf-8") as f:
-                f.write(self.driver.page_source)  # 保存页面源代码
+                f.write(self.driver.page_source)  # Save page source
             self.fail(f"Test failed due to exception: {str(e)}")
 
 if __name__ == '__main__':
