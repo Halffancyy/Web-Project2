@@ -173,4 +173,6 @@ Our system tests test login functionality and compatibility with Chrome browser.
 
 </div>
 
+## License
 
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
