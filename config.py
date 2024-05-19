@@ -15,3 +15,9 @@ class Config(object):
 
     # 禁用 SQLAlchemy 的修改追踪功能（可以提高性能）
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+class TestConfig(Config):
+    # 使用内存中的 SQLite 数据库用于测试环境
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
+    TESTING = True
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
