@@ -1,7 +1,6 @@
-```markdown
 # EDM 4 Life
 
-![EDM 4 Life](static/images/logo.png)
+![EDM 4 Life](static/images/photos/1.png)
 
 The best EDM music forum (for us)
 
@@ -19,18 +18,17 @@ Ensure you have the following installed on your machine:
 
 Open a terminal and navigate to your project directory. Then run the following commands to set up a virtual environment:
 
+`python3 -m venv venv`
+`source venv/bin/activate`  
 
-python3 -m venv venv
-source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+# On Windows use `venv\Scripts\activate`
 
 
 ### 2. Install Dependencies
 
 With the virtual environment activated, install the required packages:
 
-
-pip install -r requirements.txt
-
+`pip install -r requirements.txt`
 
 ### 3. Set Environment Variables
 
@@ -38,23 +36,17 @@ Set the `FLASK_APP` environment variable to point to your application entry poin
 
 On macOS/Linux:
 
-
-export FLASK_APP=app.py
-
+`export FLASK_APP=app.py`
 
 On Windows:
 
-
-set FLASK_APP=app.py
-
+`set FLASK_APP=app.py`
 
 ### 4. Run the Application
 
 Start the Flask development server:
 
-
-flask run
-
+`flask run`
 
 By default, the application will run on [http://127.0.0.1:5000/](http://127.0.0.1:5000/).
 
@@ -70,14 +62,11 @@ On macOS/Linux:
 
 Find the process ID using:
 
-
-lsof -i :5000
-
+`lsof -i :5000`
 
 Kill the process:
 
-
-kill -9 <PID>
+`kill -9 <PID>`
 
 
 ## Usage
@@ -136,7 +125,7 @@ This system is designed to encourage daily participation and contribute positive
 
 To run unit tests, use the following command:
 
-python -m unittest tests.test_basic
+`python -m unittest tests.test_basic`
 
 This will test:
 
@@ -147,7 +136,7 @@ This will test:
 
 To run system tests, use the following command:
 
-python -m unittest tests.test_system
+`python -m unittest tests.test_system`
 
 This will test:
 
