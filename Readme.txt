@@ -44,40 +44,64 @@ User Registration
 Open your browser and navigate to the registration page.
 Fill in the username, email, and password fields, then click "Register".
 Upon successful registration, you will be redirected to the login page.
+
 User Login
 On the login page, enter your username and password, then click "Login".
 After a successful login, you will be redirected to the dashboard page, displaying a welcome message and your points.
-User Points System
-The user points system rewards engagement through the following activities:
+
+Our points system rewards user engagement with various activities on the platform:
+
 Daily Login: Earn 1 point each day you log in.
-Likes: Earn 1 point for each like on another user's post (only the first 5 likes per day will earn points).
-Comments: Earn points by commenting on posts. Comments with more than 50 characters earn 2 points, while comments with fewer than 50 characters earn 1 point (only the first 10 comments each day will earn points).
-Posting: Earn 3 points for creating a new post (only the first 5 posts each day will earn points).
+Likes: Each like on another user's post earns you 1 point. Note that while you can like as many posts as you wish, only the first 5 likes per day will earn points.
+Comments: Earn points by commenting on posts. Comments with more than 50 characters earn 2 points, while comments with fewer than 50 characters earn 1 point. You can comment as often as you like, but only the first 10 comments each day will earn points.
+Posting: Creating a new post earns you 3 points. There is no limit to how many posts you can create, but only the first 5 posts each day will earn points.
+This system is designed to encourage daily participation and contribute positively to our community. Thank you for being an active member!
+
 Creating and Managing Posts
 Create a Post
 On the dashboard page, click the "Create Request" button.
 Fill in the post title and description, then click "Submit".
 The new post will appear in the post list on the dashboard page.
+
 Commenting and Liking Posts
 Find a post you are interested in on the dashboard page.
 Click the "Comment" button below the post, fill in your comment, and submit.
 Click the "Like" button to like the post.
+
 Editing and Deleting Comments
 Edit a Comment
 Locate the comment you want to edit in the comment list.
 Click the "Edit" button next to the comment, modify the content, and submit.
+
 Delete a Comment
 Locate the comment you want to delete in the comment list.
 Click the "Delete" button next to the comment, and confirm the deletion.
+
+Running Tests
+1. Unit Tests
+To run unit tests, use the following command:
+python -m unittest tests.test_basic
+This will test:
+
+Email and password validation
+Request creation
+
+2. System Tests
+To run system tests, use the following command:
+python -m unittest tests.test_system
+This will test:
+
+Login functionality
+Compatibility with Chrome browser
 
 Contributing
 
 | Name           | GitHub Username(s)           | Student ID     |
 | -------------- | ---------------------------- | -------------- |
-| Shijun Shao    | Halffancyy                   | [Your Student ID] |
-| Weisi Zhang    | Wiz6666                      | [Your Student ID] |
+| Shijun Shao    | Halffancyy                   | 23926903 |
+| Weisi Zhang    | Wiz6666                      | 23210735 |
 | Chen Shen      | erryshenfewcher, wsscnha     | 23877677 |
-| Jiaheng Gu     | HendrickGu                   | [Your Student ID] |
+| Jiaheng Gu     | HendrickGu                   | 23925667 |
 
 
 
