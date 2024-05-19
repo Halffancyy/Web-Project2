@@ -1199,6 +1199,8 @@ footer {
 
 .table tbody tr:nth-child(even) {
   background-color: rgba(255, 255, 255, 0.1);
+}
+
 /* ================= CSS3 ANIMATIONS ================== */
 header h1 {
   -webkit-animation: fadeInLeft 1s ease-in-out 1s backwards;
@@ -1207,6 +1209,7 @@ header h1 {
   -ms-animation: fadeInLeft 1s ease-in-out 1s backwards;
   animation: fadeInLeft 1s ease-in-out 1s backwards;
 }
+
 .page-title {
   -webkit-animation: fadeInLeft 1s ease-in-out 0.4s backwards;
   -moz-animation: fadeInLeft 1s ease-in-out 0.4s backwards;
@@ -1214,6 +1217,7 @@ header h1 {
   -ms-animation: fadeInLeft 1s ease-in-out 0.4s backwards;
   animation: fadeInLeft 1s ease-in-out 0.4s backwards;
 }
+
 .single-page-title {
   -webkit-animation: bounceInDown 1s ease-in-out 1s backwards;
   -moz-animation: bounceInDown 1s ease-in-out 1s backwards;
@@ -1221,6 +1225,7 @@ header h1 {
   -ms-animation: bounceInDown 1s ease-in-out 1s backwards;
   animation: bounceInDown 1s ease-in-out 1s backwards;
 }
+
 .post-img {
   -webkit-animation: flipInY 1.4s ease-in-out 1s backwards;
   -moz-animation: flipInY 1.4s ease-in-out 1s backwards;
@@ -1228,6 +1233,7 @@ header h1 {
   -ms-animation: flipInY 1.4s ease-in-out 1s backwards;
   animation: flipInY 1.4s ease-in-out 1s backwards;
 }
+
 .cover {
   -webkit-animation: flipInX 1.4s ease-in-out 1s backwards;
   -moz-animation: flipInX 1.4s ease-in-out 1s backwards;
@@ -1235,6 +1241,7 @@ header h1 {
   -ms-animation: flipInX 1.4s ease-in-out 1s backwards;
   animation: flipInX 1.4s ease-in-out 1s backwards;
 }
+
 .event-img {
   -webkit-animation: flipInY 1.4s ease-in-out 1s backwards;
   -moz-animation: flipInY 1.4s ease-in-out 1s backwards;
@@ -1242,6 +1249,7 @@ header h1 {
   -ms-animation: flipInY 1.4s ease-in-out 1s backwards;
   animation: flipInY 1.4s ease-in-out 1s backwards;
 }
+
 #main {
   -webkit-animation: bounceInUp 1.4s ease-in-out 1s backwards;
   -moz-animation: bounceInUp 1.4s ease-in-out 1s backwards;
@@ -1249,6 +1257,7 @@ header h1 {
   -ms-animation: bounceInUp 1.4s ease-in-out 1s backwards;
   animation: bounceInUp 1.4s ease-in-out 1s backwards;
 }
+
 .boxes {
   -webkit-animation: bounceInDown 1.4s;
   -moz-animation: bounceInDown 1.4s;

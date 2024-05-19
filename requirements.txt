@@ -12,3 +12,4 @@ flask_apscheduler
 datetime
 selenium
 webdriver-manager
+WTForms
