@@ -10,17 +10,6 @@ from datetime import date
 def intro():
     return render_template('introductory.html')
 
-# 仪表板页面，显示请求列表并允许用户进行搜索 (需要登录)
-@site_views.route('/dashboard', methods=['GET', 'POST'])
-@login_required
-def dashboard():
-    query = request.args.get('query')
-    requests = Request.query.filter(
-        Request.title.ilike(f'%{query}%') | Request.description.ilike(f'%{query}%')
-    ).all() if query else Request.query.all()
-    comment_form = CommentForm()
-    return render_template('dashboard.html', requests=requests, comment_form=comment_form)
-
 # 主页路由 (需要登录)
 @site_views.route('/index')
 @login_required
