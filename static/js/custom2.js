@@ -21,7 +21,7 @@ function (event) {
     $theid.find($allListElements).removeClass('animated tada');
 });
 
-/* COMMENTS */
+/////////////////* COMMENTS */////////////////////////
 
 var cmnts = $('#read-comments');
 cmnts.on("click", function () {
@@ -30,7 +30,8 @@ cmnts.on("click", function () {
     $('body').find('.comment-link').fadeOut();
 });
 
-/* TABS */
+/////////////////* TABS */////////////////////////
+
 $(document).ready(function () {
     "use strict";
     $("body").find("#tab-content div").hide();
@@ -46,7 +47,8 @@ $(document).ready(function () {
     });
 });
 
-/* Go to top link */
+/////////////////* Go to top link */////////////////////////
+
 $("#credits").find('#top').on("click", function () {
     "use strict";
     var bdy = $('html, body');
@@ -74,16 +76,18 @@ sidemenu.on("click", function (event) {
 
 });
 
-/* Gallery */
+/////////////////* Gallery */////////////////////////
+
+
 $("body").find('#tiles').imagesLoaded(function () {
     "use strict";
     var filter = '';
     var handler;
     var options = {
-        autoResize: true, 
-        container: $('#main'), 
-        offset: 10, 
-        itemWidth: 205 
+        autoResize: true, // This will auto-update the layout when the browser window is resized.
+        container: $('#main'), // Optional, used for some extra CSS styling
+        offset: 10, // Optional, the distance between grid items
+        itemWidth: 205 // Optional, the width of a grid item
     };
     var refresh = function () {
         if (handler) {

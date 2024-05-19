@@ -41,6 +41,23 @@ function openeffect() {
   }
 }
 
+/* Article Backgrounds */
+/*
+function background() {
+  "use strict";
+  if ($(window).width() > 480) {
+    homebody.backstretch("images/photos/concert.png");
+    $(".main").find(".about").backstretch("../images/photos/13.jpg");
+    $(".main").find(".albums").backstretch("../images/photos/4.png");
+    $(".main").find(".post").backstretch("../images/photos/12.webp");
+    $(".main").find(".contact").backstretch("../images/photos/9.jpg");
+  }
+}
+*/ 
+
+
+
+
 /* Clear Background Images */
 function clear() {
   "use strict";
@@ -316,7 +333,7 @@ if ($(window).width() < 480) {
   });
 }
 
-/* TABS */
+/////////////////* TABS */////////////////////////
 
 $(document).ready(function () {
   "use strict";
@@ -352,5 +369,6 @@ sidemenu.on("click", function (event) {
   }
 });
 
-/* LOADING ANIMATION*/
+/////////////////* LOADING ANIMATION ( DON'T REMOVE ! ) */////////////////////////
+
 window.onload = loading;
