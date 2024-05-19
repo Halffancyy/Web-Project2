@@ -6,10 +6,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Create Request</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-  <link href="{{ url_for('static', filename='css/request.css') }}" rel="stylesheet" type="text/css" />
   <meta name="csrf-token" content="{{ csrf_token() }}" />
 </head>
+<style>
+  body {
+    background: linear-gradient(to bottom, #000000, #434343);
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+  }
 
+  .container {
+    margin-top: 50px;
+    max-width: 600px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  }
+
+  h1 {
+    font-family: "Impact", sans-serif;
+    text-align: center;
+    color: #ff0000;
+    margin-bottom: 30px;
+  }
+
+  .btn-primary {
+    background-color: #ff0000;
+    border-color: #ff0000;
+  }
+
+  .btn-primary:hover {
+    background-color: #cc0000;
+    border-color: #cc0000;
+  }
+</style>
 
 <body>
   <div class="container mt-5">
