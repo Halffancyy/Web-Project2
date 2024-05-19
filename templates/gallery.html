@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -43,7 +43,7 @@
                 src="{{ url_for('static', filename='images/gallery/martin1.jpg') }}" alt="" /></a>
             <p>Martin Garrix</p>
           </li>
-          <li class="all video1">
+          <li class="all youtube">
             <a class="iframe" href="http://www.youtube.com/embed/1iIZeIy7TqM"><img
                 src="{{ url_for('static', filename='images/photos/post3-thumb.jpg') }}" alt="" /></a>
             <p>YouTube</p>
@@ -112,7 +112,6 @@
         <nav>
           <ul>
             <li><a href="{{ url_for('site_views.post') }}">Post Page</a></li>
-            <li><a href="{{ url_for('layout') }}">Layout</a></li>
             <li><a href="{{ url_for('site_views.gallery') }}">Gallery Page</a></li>
             <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
           </ul>
