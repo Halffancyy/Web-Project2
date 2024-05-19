@@ -10,3 +10,5 @@ wtforms
 Flask-Migrate
 flask_apscheduler
 datetime
+selenium
+webdriver-manager
