@@ -4,53 +4,80 @@
 
 The best EDM music forum (for us)
 
+## Purpose
+
+EDM 4 Life is designed to create a vibrant community for EDM music enthusiasts. Users can register, log in, create posts, comment, and like posts. The points system encourages user engagement by rewarding daily logins, likes, comments, and posts. This application aims to foster a lively and interactive environment for EDM fans to share and discuss their favorite music.
+
 ## Prerequisites
 
 Ensure you have the following installed on your machine:
-
 - Python 3.x
 - pip (Python package installer)
 - virtualenv (optional but recommended)
 
 ## Setup
 
-### 1. Configure Virtual Environment
+### macOS/Linux
+
+#### 1. Configure Virtual Environment
 
 Open a terminal and navigate to your project directory. Then run the following commands to set up a virtual environment:
 
-`python3 -m venv venv`
-`source venv/bin/activate`  
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
 
-# On Windows use `venv\Scripts\activate`
-
-
-### 2. Install Dependencies
+#### 2. Install Dependencies
 
 With the virtual environment activated, install the required packages:
 
-`pip install -r requirements.txt`
+```bash
+pip install -r requirements.txt
+```
 
-### 3. Set Environment Variables
+#### 3. Set Environment Variables
 
 Set the `FLASK_APP` environment variable to point to your application entry point. This will tell Flask how to find your application.
 
-On macOS/Linux:
+```bash
+export FLASK_APP=app.py
+```
 
-`export FLASK_APP=app.py`
-
-On Windows:
-
-`set FLASK_APP=app.py`
-
-### 4. Run the Application
+#### 4. Run the Application
 
 Start the Flask development server:
+```bash
+flask run
+```
 
-`flask run`
+### Windows
 
+#### 1. Configure Virtual Environment
+```bash
+python3 -m venv venv
+venv/bin/activate
+```
+
+#### 2. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+#### 3. Set Environment Variables
+
+```bash
+set FLASK_APP=app.py
+```
+
+#### 4.Run the Application
+```bash
+flask run
+```
 By default, the application will run on [http://127.0.0.1:5000/](http://127.0.0.1:5000/).
 
-## Stopping the Application
+### Stopping the Application
 
 To stop the Flask development server, you can use `Ctrl + C` in the terminal where the server is running.
 
@@ -119,42 +146,20 @@ This system is designed to encourage daily participation and contribute positive
 1. Locate the comment you want to delete in the comment list.
 2. Click the "Delete" button next to the comment, and confirm the deletion.
 
-## Running Tests
+## Testing
 
 ### 1. Unit Tests
 
-`
-wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo dpkg -i google-chrome-stable_current_amd64.deb
-sudo apt --fix-broken install
-`
-
-`
-wget https://chromedriver.storage.googleapis.com/91.0.4472.19/chromedriver_linux64.zip
-unzip chromedriver_linux64.zip
-sudo mv chromedriver /usr/local/bin/
-sudo chmod +x /usr/local/bin/chromedriver
-`
-
-To run unit tests, use the following command:
-
-`python -m unittest tests.test_basic`
-
-This will test:
-
-- Email and password validation
-- Request creation
+Our unit tests test the email and password validation and request creation. To run unit tests, use the following command:
+```bash
+python -m unittest tests.test_basic
+```
 
 ### 2. System Tests
 
-To run system tests, use the following command:
+Our system tests test login functionality and compatibility with Chrome browser. To run system tests, use the following command:
 
 `python -m unittest tests.test_system`
-
-This will test:
-
-- Login functionality
-- Compatibility with Chrome browser
 
 ## Contributing
 
